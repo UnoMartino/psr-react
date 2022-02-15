@@ -1,7 +1,8 @@
 import TopPanel from "./TopPanel";
 import React from 'react'
-import Home from "./Home";
-import AddRequest from "./AddRequest";
+import Home from "../Sites/Home";
+import AddRequest from "../Sites/AddRequest";
+import Admin from "../Sites/Admin"
 
 const ContentContainer = ({menu}) => {
     return (
@@ -17,6 +18,10 @@ const ContentContainer = ({menu}) => {
 
                 {menu === 'add' && (
                     <AddRequest />
+                )}
+
+                {menu === 'admin' && (
+                    <Admin />
                 )}
             </div>
 

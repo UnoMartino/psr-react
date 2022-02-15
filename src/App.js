@@ -1,6 +1,5 @@
 import './App.css';
-import SideBar from "./SideBar"
-import ContentContainer from './ContentContainer';
+import ContentContainer from './Elements/ContentContainer';
 import React, { Component } from 'react'
 import { BsPlus, BsGearFill } from 'react-icons/bs';
 import { MdRadio } from "react-icons/md";
@@ -16,6 +15,9 @@ class Menu extends React.Component {
   menuAdd = () => {
     this.setState({menu: "add"});
   }
+  menuAdmin = () => {
+    this.setState({menu: "admin"});
+  }
   render() {
     return (
       <div className="flex">
@@ -23,7 +25,7 @@ class Menu extends React.Component {
           <SideBarIcon changeMenu={this.menuHome} icon={<MdRadio size="28" />} text="Strona główna" />
           <SideBarIcon changeMenu={this.menuAdd} icon={<BsPlus size="32" />} text="Requesty"/>
           <Divider />
-          <SideBarIcon icon={<BsGearFill size="24" />} text="Administracja"/>
+          <SideBarIcon changeMenu={this.menuAdmin} icon={<BsGearFill size="24" />} text="Administracja"/>
       
         </div>
         <ContentContainer menu={this.state.menu}/>
