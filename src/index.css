@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700&family=Comfortaa:wght@300;400;500;600;700&display=swap');
+
 @layer components {
 
   .sidebar-icon {
       @apply relative flex items-center justify-center 
              h-12 w-12 mt-2 mb-2 mx-auto shadow-lg
-             bg-gray-800 text-green-500
-             hover:bg-green-600 hover:text-white
+             bg-zinc-700 text-sky-500
+             hover:bg-sky-600 hover:text-white
              rounded-3xl hover:rounded-xl
              transition-all duration-300 ease-linear
              cursor-pointer;
@@ -16,10 +18,57 @@
 
   .sidebar-tooltip {
     @apply absolute w-auto p-2 m-2 min-w-max left-14
-    rounded-md shadow-md
-    text-white bg-gray-900 
-    text-xs font-bold
-    transition-all duration-100 scale-0 origin-left;
+            rounded-md shadow-md
+            text-white bg-zinc-900 
+            text-xs font-bold
+            transition-all duration-100 scale-0 origin-left;
+  }
+
+  .sidebar-hr {
+    @apply bg-zinc-800 dark:bg-zinc-800 
+            border border-zinc-600 dark:border-zinc-600 rounded-full
+            mx-3 ;
+  }
+
+  .top-panel {
+    @apply flex flex-row items-center
+    bg-zinc-700 dark:bg-zinc-700 bg-opacity-90 
+    w-full h-14 
+    m-0 
+    shadow-lg;
+  }
+
+  .font-baloo {
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .font-comfortaa {
+    font-family: 'Comfortaa', cursive;
+  }
+
+  .content-container {
+    @apply flex flex-col 
+    bg-zinc-700 dark:bg-zinc-700
+    m-0 
+    h-screen w-full 
+    overflow-hidden ml-16;
+  }
+
+  .big-hr {
+    @apply bg-zinc-800 dark:bg-zinc-800 
+            border border-zinc-900 dark:border-zinc-900;
+  }
+
+  .z-top {
+    z-index: 10;
+  }
+
+  .z-middle {
+    z-index: 5;
+  }
+
+  .z-bottom {
+    z-index: 2;
   }
 
 }
