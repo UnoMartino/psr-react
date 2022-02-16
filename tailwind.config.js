@@ -18,6 +18,7 @@ module.exports = {
       pink: colors.fuchsia,
       zinc: colors.zinc,
       sky: colors.sky,
+      red: colors.red,
     },
     extend: {},
   },

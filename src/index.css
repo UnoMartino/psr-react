@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700&family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
 @layer components {
+  
 
   .sidebar-icon {
       @apply relative flex items-center justify-center 
@@ -50,7 +51,7 @@
     @apply flex flex-col 
     bg-zinc-700 dark:bg-zinc-700
     m-0 
-    h-screen w-full 
+    min-h-screen w-full 
     overflow-hidden ml-16;
   }
 
@@ -71,6 +72,29 @@
     z-index: 2;
   }
 
+  .spin {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+
+
 }
 
 
@@ -83,6 +107,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply bg-zinc-800;
 }
 
 code {

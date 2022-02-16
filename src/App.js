@@ -39,7 +39,7 @@ const SideBarIcon = (props) => (
     <button onClick={props.changeMenu}>{props.icon}</button>
     
 
-    <span class="sidebar-tooltip group-hover:scale-100 font-baloo text-sm antialiased">{props.text}</span>
+    <span className="sidebar-tooltip group-hover:scale-100 font-baloo text-sm antialiased">{props.text}</span>
   </div>
 );
 
