@@ -15,8 +15,12 @@ class AddRequest extends React.Component {
             image: '',
             text: '',
             title: '',
-            showDiv: false
+            showDiv: false,
+            reset: false,
         };
+        this.error = this.error.bind(this);
+        this.reset = this.reset.bind(this);
+        this.addToPlaylist = this.addToPlaylist.bind(this);
         this.request = this.request.bind(this);
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -34,20 +38,19 @@ class AddRequest extends React.Component {
     }
     request() {
         fetch(
-            "http://10.0.128.165:8080/api/url", {
+            "https://spotify.madanowicz.pl/api/url", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
                   "accept": "application/json"
             },
-            "body": JSON.stringify({
-                url: this.state.url
-            })
+                "body": JSON.stringify({
+                    url: this.state.url
+                })
         })
         .then(response => response.json())
         .then(response => {
             console.log(response);
-            // response = JSON.parse(response)
             this.setState({response: true});
             this.setState({author: response.Author});
             this.setState({curses: response.Curses});
@@ -58,11 +61,56 @@ class AddRequest extends React.Component {
             this.setState({error: response.Error});
             this.setState({description: response.Description});
             this.setState({mode: response.Mode});
+            this.setState({reset: false});
 
         })
         .catch(err => {
             console.log(err);
         });
+    }
+    addToPlaylist() {
+        fetch(
+            "https://spotify.madanowicz.pl/api/add-song", {
+                "method": "POST",
+                "headers": {
+                  "content-type": "application/json",
+                  "accept": "application/json"
+            },
+            "body": JSON.stringify({
+                id: this.state.id
+            })
+        })
+        .then(response => console.log(response))
+        .catch(err => {
+            console.log(err);
+        });
+    }
+    reset() {
+        this.setState({response: false});
+        this.setState({author: ''});
+        this.setState({curses: ''});
+        this.setState({id: ''});
+        this.setState({image: ''});
+        this.setState({text: ''});
+        this.setState({title: ''});
+        this.setState({error: ''});
+        this.setState({description: ''});
+        this.setState({mode: ''});
+        this.setState({reset: true});
+        this.setState({url: ''});
+        this.sleep(3000).then(r => {
+            this.setState({reset: false});
+      	});
+
+    }
+    error() {
+        this.sleep(3000).then(r => {
+            this.close()
+            this.reset()
+      	});
+    }
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     handleChange(changeObject) {
         this.setState(changeObject)
@@ -87,6 +135,9 @@ class AddRequest extends React.Component {
                             {this.state.showDiv === true && (
                                 <div className='spin ml-3'></div>
                             )}
+                            {this.state.reset === true && (
+                                <div className='ml-4 font-baloo text-xl text-zinc-200 font-normal'>Spróbuj ponownie</div>
+                            )}
                         </div>
                         
                     </form>
@@ -110,8 +161,8 @@ class AddRequest extends React.Component {
                                             Znaleziono poprawną piosenkę?
                                         </div>
                                         <div className='flex flex-row mt-4 items-center'>
-                                            <button className='h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold'>Tak</button>
-                                            <button className='ml-2 h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold'>Nie</button>
+                                            <button className='h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' onClick={this.addToPlaylist}>Tak</button>
+                                            <button className='ml-2 h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' onClick={this.reset}>Nie</button>
                                         </div>
                                         <div className='font-baloo text-zinc-200 font-normal text-center mb-10 mt-4' dangerouslySetInnerHTML={{__html: this.state.text}}>
                                         </div>
@@ -122,15 +173,15 @@ class AddRequest extends React.Component {
                         this.state.error === false &&
                             this.state.mode === 'single' && 
                                 this.state.curses === true && (
-                                    <div className='font-baloo text-2xl text-zinc-200 font-medium'>
-                                        Curses
+                                    <div className='font-baloo text-2xl text-red-500 font-medium'>
+                                        Wybrana piosenka zawiera niedozwolone treści.{this.error()}
                                     </div>
                                 )    
                     }
                     {this.state.response === true &&
                         this.state.error === true && (
                             <div className='font-baloo text-2xl text-red-500 font-medium'>
-                                {this.state.description}
+                                {this.state.description}{this.error()}
                             </div>
 
                         )
