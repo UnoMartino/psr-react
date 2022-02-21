@@ -72,7 +72,7 @@ class Home extends React.Component {
                     <div className="flex-1">
                         <div className="flex flex-col items-center">
                             <div className="font-baloo text-5xl text-zinc-200 font-medium">
-                                Ładowanie...
+                                Teraz gramy
                             </div>
                             <div className="mt-2 flex flex-row items-center" >
                             <button className='h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' type='button' onClick={this.buttonClick}>Odśwież</button>
@@ -95,7 +95,7 @@ class Home extends React.Component {
                                     Teraz gramy
                                 </div>
                                 <div className="mt-4">
-                                    <img className="w-36 rounded-2xl" src={this.state.image} onLoad={this.close}></img>
+                                    <img className="w-36 rounded-2xl" src={this.state.image} onLoad={this.close} alt=''></img>
                                 </div>
                                 <div className="mt-4 font-baloo text-4xl text-zinc-200 font-normal text-center">
                                     {this.state.title}
