@@ -1,2 +1,2 @@
-# public-song-requester frontend (React.js)
+# radio-song-requester frontend (React.js)
 ## WIP
