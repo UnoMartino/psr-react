@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <title>Radiowęzeł ZST</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="site-branding">
+            <h1 class="site-title">Radiowęzeł ZST</h1>
+        </div>
+        <nav class="site-navigation">
+            <div>
+            </div>
+        </nav>
+    </header>
+    <div class="parent">
+        <div class="content">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <p>{{form.user_name.label}}<br>
+                {{form.user_name(size=32)}}<br>
+                </p>
+                <p>{{form.password.label}}<br>
+                {{form.password(size=32)}}<br>
+                </p><br>
+                <p>{{ form.submit() }}</p>
+            </form>
+            <div id="error" style="padding-top: 10px;">
+                {% block error %}
+                {% endblock %}
+            </div>
+        </div>
+        <footer class="site-footer">
+        </footer>
+    </div>
+</body>
+
+</html>

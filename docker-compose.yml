@@ -1,0 +1,28 @@
+---
+version: "2.1"
+services:
+  radio-song-requester-web:
+    image: unomartino/radio-song-requester-web
+    container_name: radio-song-requester-web
+    ports:
+      - 8073:80
+    restart: unless-stopped
+  radio-song-requester-backend:
+    image: unomartino/radio-song-requester-backend
+    container_name: radio-song-requester-backend
+    environment:
+      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - SPOTIFY_USERNAME=${SPOTIFY_USERNAME}
+      - SPOTIFY_DESTINATION_PLAYLIST_ID=${SPOTIFY_DESTINATION_PLAYLIST_ID}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE:-spotify}
+    volumes:
+      - radio-song-requester_data:/data
+    ports:
+      - ${PORT:-8072}:8080
+    restart: unless-stopped
+volumes:
+    radio-song-requester_data:

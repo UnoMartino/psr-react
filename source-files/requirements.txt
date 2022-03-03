@@ -1,0 +1,7 @@
+tekore
+beautifulsoup4
+requests
+flask
+flask-wtf
+wtforms
+mysql-connector-python

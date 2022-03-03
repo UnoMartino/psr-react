@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <title>Radiowęzeł ZST</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="site-branding">
+            <h1 class="site-title">Radiowęzeł ZST</h1>
+        </div>
+        <nav class="site-navigation">
+            <div>
+                <a href="logout">Wyloguj się</a>
+            </div>
+        </nav>
+    </header>
+    <div class="parent">
+        <div class="content">
+            <form action="/api/blacklists" method="POST" id="blacklist">
+                <h3>Utwory na blackliście</h3>
+                {% for i in session['blacklistSongsList'] %}
+                {{ i[2] }}
+                <br>Spotify ID:<br>
+                {{ i[1] }}<br>
+                <button type="submit" name="delete" value="butS{{ loop.index }}">Usuń</button><br>
+                {% endfor %}
+            
+                <h3>Wykonawcy na blackliście</h3>
+                {% for i in session['blacklistArtistsList'] %}
+                {{ i[2] }}
+                <br>Spotify ID:<br>
+                {{ i[1] }}<br>
+                <button type="submit" name="delete" value="butA{{ loop.index }}">Usuń</button><br>
+                {% endfor %}
+            </form>
+
+            <form action="/api/whitelists" method="POST" id="whitelist">
+                <h3>Utwory na whiteliście</h3>
+                {% for i in session['whitelistSongsList'] %}
+                {{ i[2] }}
+                <br>Spotify ID:<br>
+                {{ i[1] }}<br>
+                <button type="submit" name="delete" value="butS{{ loop.index }}">Usuń</button><br>
+                {% endfor %}
+
+                <h3>Wykonawcy na whiteliście</h3>
+                {% for i in session['whitelistArtistsList'] %}
+                {{ i[2] }}
+                <br>Spotify ID:<br>
+                {{ i[1] }}<br>
+                <button type="submit" name="delete" value="butA{{ loop.index }}">Usuń</button><br>
+                {% endfor %}
+            </form>
+
+            <form action="/api/def-blacklist" method="POST" id="add-blacklist">
+                <h3>Dodaj na blacklistę</h3>
+                <label for="spotifyId">Spotify ID:</label><br>
+                <input type="text" name="spotifyId" id="spotifyId"><br><br>
+                <input type="radio" name="AorS" id="song" value="song">
+                <label for="name">Utwór</label><br>
+                <input type="radio" name="AorS" id="artist" value="artist">
+                <label for="name">Wykonawca</label>
+
+
+                <br><br>
+                <input type="submit" value="Dodaj">
+            </form>
+
+            <form action="/api/def-whitelist" method="POST" id="add-whitelist">
+                <h3>Dodaj na whitelistę</h3>
+                <label for="spotifyId">Spotify ID:</label><br>
+                <input type="text" name="spotifyId" id="spotifyId"><br><br>
+                <input type="radio" name="AorS" id="song" value="song">
+                <label for="name">Utwór</label><br>
+                <input type="radio" name="AorS" id="artist" value="artist">
+                <label for="name">Wykonawca</label>
+
+
+                <br><br>
+                <input type="submit" value="Dodaj">
+            </form>
+
+
+            <div id="error" style="padding-top: 10px;">
+                {% block error %}
+                {% endblock %}
+            </div>
+        </div>
+        <footer class="site-footer">
+
+
+        </footer>
+    </div>
+</body>
+
+</html>
