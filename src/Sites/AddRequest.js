@@ -116,7 +116,7 @@ class AddRequest extends React.Component {
     }
     request() {
         fetch(
-            "https://spotify.madanowicz.pl/api/url", {
+            "/api/url", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
@@ -211,7 +211,7 @@ class AddRequest extends React.Component {
     }
     addToPlaylist() {
         fetch(
-            "https://spotify.madanowicz.pl/api/add-song", {
+            "/api/add-song", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
@@ -229,7 +229,7 @@ class AddRequest extends React.Component {
     }
     addToPlaylist2() {
         fetch(
-            "https://spotify.madanowicz.pl/api/add-song", {
+            "/api/add-song", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
@@ -247,7 +247,7 @@ class AddRequest extends React.Component {
     }
     addToPlaylist3() {
         fetch(
-            "https://spotify.madanowicz.pl/api/add-song", {
+            "/api/add-song", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
@@ -265,7 +265,7 @@ class AddRequest extends React.Component {
     }
     addToPlaylist4() {
         fetch(
-            "https://spotify.madanowicz.pl/api/add-song", {
+            "/api/add-song", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",
@@ -283,7 +283,7 @@ class AddRequest extends React.Component {
     }
     addToPlaylist5() {
         fetch(
-            "https://spotify.madanowicz.pl/api/add-song", {
+            "/api/add-song", {
                 "method": "POST",
                 "headers": {
                   "content-type": "application/json",

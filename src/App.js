@@ -18,6 +18,9 @@ class Menu extends React.Component {
   menuAdmin = () => {
     this.setState({menu: "admin"});
   }
+  componentDidMount() {
+    document.title = "Radiowęzeł ZST";  
+  }
   render() {
     return (
       <div className="flex">
