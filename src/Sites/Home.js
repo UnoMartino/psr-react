@@ -31,7 +31,7 @@ class Home extends React.Component {
     }
     fetchNowPlaying() {
         fetch(
-            "https://spotify.madanowicz.pl/api/now-playing", {
+            "/api/now-playing", {
                 "method": "GET",
                 "headers": {
                     "content-type": "application/json",
