@@ -8,21 +8,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
 </head>
 
-<body>
+<body class="mb-10 bg-zinc-700">
     <header class="site-header">
         <div class="site-branding">
-            <h1 class="site-title">Radiowęzeł ZST</h1>
+            <div class="font-baloo text-2xl lg:text-5xl text-zinc-200 font-medium ml-4 mt-4">Radiowęzeł ZST</div>
+            <div class="font-baloo text-2xl text-zinc-200 font-medium ml-4">Admin</div>
         </div>
         <nav class="site-navigation">
-            <div>
+            <div class="ml-4">
                 <a href="logout">Wyloguj się</a>
             </div>
         </nav>
     </header>
     <div class="parent">
-        <div class="content">
+        <div class="flex flex-col items-center">
             <form action="/api/blacklists" method="POST" id="blacklist">
-                <h3>Utwory na blackliście</h3>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Utwory na blackliście</h3>
                 {% for i in session['blacklistSongsList'] %}
                 {{ i[2] }}
                 <br>Spotify ID:<br>
@@ -30,7 +31,7 @@
                 <button type="submit" name="delete" value="butS{{ loop.index }}">Usuń</button><br>
                 {% endfor %}
             
-                <h3>Wykonawcy na blackliście</h3>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Wykonawcy na blackliście</h3>
                 {% for i in session['blacklistArtistsList'] %}
                 {{ i[2] }}
                 <br>Spotify ID:<br>
@@ -40,7 +41,7 @@
             </form>
 
             <form action="/api/whitelists" method="POST" id="whitelist">
-                <h3>Utwory na whiteliście</h3>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Utwory na whiteliście</h3>
                 {% for i in session['whitelistSongsList'] %}
                 {{ i[2] }}
                 <br>Spotify ID:<br>
@@ -48,7 +49,7 @@
                 <button type="submit" name="delete" value="butS{{ loop.index }}">Usuń</button><br>
                 {% endfor %}
 
-                <h3>Wykonawcy na whiteliście</h3>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Wykonawcy na whiteliście</h3>
                 {% for i in session['whitelistArtistsList'] %}
                 {{ i[2] }}
                 <br>Spotify ID:<br>
@@ -57,32 +58,32 @@
                 {% endfor %}
             </form>
 
-            <form action="/api/def-blacklist" method="POST" id="add-blacklist">
-                <h3>Dodaj na blacklistę</h3>
-                <label for="spotifyId">Spotify ID:</label><br>
+            <form style="flex: none;" action="/api/def-blacklist" method="POST" id="add-blacklist">
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodaj na blacklistę</h3>
+                <label class="font-baloo text-zinc-200 font-medium" for="spotifyId">Spotify ID:</label><br>
                 <input type="text" name="spotifyId" id="spotifyId"><br><br>
                 <input type="radio" name="AorS" id="song" value="song">
-                <label for="name">Utwór</label><br>
+                <label class="font-baloo text-zinc-200 font-medium" for="song">Utwór</label><br>
                 <input type="radio" name="AorS" id="artist" value="artist">
-                <label for="name">Wykonawca</label>
+                <label class="font-baloo text-zinc-200 font-medium" for="artist">Wykonawca</label>
 
 
                 <br><br>
-                <input type="submit" value="Dodaj">
+                <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Dodaj">
             </form>
 
             <form action="/api/def-whitelist" method="POST" id="add-whitelist">
-                <h3>Dodaj na whitelistę</h3>
-                <label for="spotifyId">Spotify ID:</label><br>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodaj na whitelistę</h3>
+                <label class="font-baloo text-zinc-200 font-medium" for="spotifyId">Spotify ID:</label><br>
                 <input type="text" name="spotifyId" id="spotifyId"><br><br>
                 <input type="radio" name="AorS" id="song" value="song">
-                <label for="name">Utwór</label><br>
+                <label class="font-baloo text-zinc-200 font-medium" for="song">Utwór</label><br>
                 <input type="radio" name="AorS" id="artist" value="artist">
-                <label for="name">Wykonawca</label>
+                <label class="font-baloo text-zinc-200 font-medium" for="artist">Wykonawca</label>
 
 
                 <br><br>
-                <input type="submit" value="Dodaj">
+                <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Dodaj">
             </form>
 
 

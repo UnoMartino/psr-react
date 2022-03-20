@@ -8,27 +8,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
 </head>
 
-<body>
+<body class="mb-10 bg-zinc-700">
     <header class="site-header">
         <div class="site-branding">
-            <h1 class="site-title">Radiowęzeł ZST</h1>
+            <div class="font-baloo text-2xl lg:text-5xl text-zinc-200 font-medium ml-4 mt-4">Radiowęzeł ZST</div>
         </div>
-        <nav class="site-navigation">
-            <div>
-            </div>
-        </nav>
     </header>
     <div class="parent">
-        <div class="content">
+        <div class="flex flex-col items-center">
+            <div class="font-baloo text-2xl text-zinc-200 font-medium">Zaloguj się</div>
             <form method="POST" action="">
                 {{ form.hidden_tag() }}
-                <p>{{form.user_name.label}}<br>
+                <p class="font-baloo text-xl text-zinc-200 font-medium">{{form.user_name.label}}<br>
                 {{form.user_name(size=32)}}<br>
                 </p>
-                <p>{{form.password.label}}<br>
+                <p class="font-baloo text-xl text-zinc-200 font-medium">{{form.password.label}}<br>
                 {{form.password(size=32)}}<br>
                 </p><br>
-                <p>{{ form.submit() }}</p>
+                <button class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" id="submit" name="submit" type="submit" value="Zaloguj się">Zaloguj</button>
             </form>
             <div id="error" style="padding-top: 10px;">
                 {% block error %}
