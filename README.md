@@ -1,4 +1,4 @@
-# radio-song-requester frontend (React.js)
+# radio-song-requester
 ## STILL WORK IN PROGRESS
 ### Radio Song Requester pozwala zobaczyć, co jest aktualnie grane w radiowęźle, oraz umożliwia zaproponowanie następnych piosenek. Integracja ze Spotify i serwisem Tekstowo.pl zapewnia szybką i zautomatyzowaną weryfikację zgłoszeń.
 
