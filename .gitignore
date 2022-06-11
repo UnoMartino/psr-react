@@ -22,4 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/source-files/tekore.cfg
+/source-files/__pycache__/
+source-files/radiodj-now-playing.json
+source-files/tekore.cfg

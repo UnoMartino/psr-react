@@ -1,3 +1,4 @@
+from crypt import methods
 import sys
 from flask import *
 from werkzeug.exceptions import BadRequestKeyError
@@ -15,6 +16,36 @@ import variables
 app = Flask(__name__)
 
 app.secret_key = secrets.token_urlsafe(32)  # generate session token
+
+
+@app.route('/api/now-radiodj')
+def NowRadioDJ():
+    requestData = request.args
+    data = {
+                "Title": requestData.getlist("title")[0],
+                "Artist": requestData.getlist("artist")[0],
+                "Image": requestData.getlist("image")[0],
+                "Text": tekstowoSearch(requestData.getlist("artist")[0], requestData.getlist("title")[0])[0],
+                "IsPlaying": True,
+    }
+    file = open("radiodj-now-playing.json", "w")
+    file.write(json.dumps(data))
+    file.close()
+
+    return "Done"
+
+@app.route('/api/get-now-radiodj', methods=['GET'])
+def GetNowRadiodj():
+    file = open("radiodj-now-playing.json", "r")
+    fileContents = json.load(file)
+    file.close()
+    # data = {
+    #         "Title": fileContents["Title"],
+    #         "Artist": fileContents["Artist"],
+    #         "Image": fileContents["Image"],
+
+    # }
+    return jsonify(fileContents)
 
 
 @app.route('/api/now-playing', methods=['GET'])
