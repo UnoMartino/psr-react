@@ -19,7 +19,7 @@ RUN apt-get update \
     && apt-get clean
 
 
-COPY source-files/ /data/
+COPY api/ /data/
 
 COPY startup.sh /data/
 
