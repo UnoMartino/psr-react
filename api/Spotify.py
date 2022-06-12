@@ -97,13 +97,13 @@ def tekstowoSearch(author, title):
 
     return [tekst, curses, error, searched, title_tekstowo, author, title]
 
-def spotifyNameCheck(track):
+def spotifyNameCheck(trackURL):
     app_token = tk.request_client_token(variables.client_id, variables.client_secret)
 
     spotify = tk.Spotify(app_token)
 
-    song_name = spotify.track(tk.from_url(track)[1]).name
-    artist = spotify.track(tk.from_url(track)[1]).artists[0].name
+    song_name = spotify.track(tk.from_url(trackURL)[1]).name
+    artist = spotify.track(tk.from_url(trackURL)[1]).artists[0].name
 
     return [artist, song_name]
 
@@ -220,7 +220,7 @@ def SpotifyAPI(url):
         for x in whitelistSongsResult:
             if id in x:
                 image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
-                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
+                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
                 return finalResult, {'error':False}
 
         whitelistArtists = database.cursor()
@@ -230,7 +230,7 @@ def SpotifyAPI(url):
         for x in whitelistArtistsResult:
             if artistId in x:
                 image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
-                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
+                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
                 return finalResult, {'error':False}
 
     if not spoti:

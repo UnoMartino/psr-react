@@ -11,11 +11,27 @@ from wtforms.validators import DataRequired
 import mysql.connector
 import tekore as tk
 import variables
+import configparser
+import helper
 
 
 app = Flask(__name__)
 
 app.secret_key = secrets.token_urlsafe(32)  # generate session token
+
+
+@app.route('/api/config', methods=['POST'])
+def ApiConfig():
+    mode = request.get_json()['Mode']
+    if mode == "SpotifyOrRadioDJ":
+        config = helper.read_config()
+        getNowRunningMode = config['NowPlaying']['Mode']
+        data = {
+            "Mode":getNowRunningMode
+        }
+        return jsonify(data)
+
+    return None
 
 
 @app.route('/api/now-radiodj')
@@ -39,12 +55,6 @@ def GetNowRadiodj():
     file = open("radiodj-now-playing.json", "r")
     fileContents = json.load(file)
     file.close()
-    # data = {
-    #         "Title": fileContents["Title"],
-    #         "Artist": fileContents["Artist"],
-    #         "Image": fileContents["Image"],
-
-    # }
     return jsonify(fileContents)
 
 
@@ -224,6 +234,9 @@ def Admin():
                 whitelistArtistsList = whitelistArtists.fetchall()
 
                 session['whitelistArtistsList'] = whitelistArtistsList
+
+                config = helper.read_config()
+                session['getNowRunningMode'] = config['NowPlaying']['Mode']
 
                 return render_template('admin-loggedin.html')
 
@@ -450,6 +463,18 @@ def DefineWhitelist():
     
     except:
         return redirect("/api/admin")
+
+@app.route('/api/set-mode', methods=['GET', 'POST'])
+def SetMode():
+    try:
+        config = helper.read_config()
+        config['NowPlaying']['Mode'] = request.form['mode']
+        with open('configurations.ini', 'w') as file_object:
+            config.write(file_object)
+    except:
+        return redirect("/api/admin")
+
+    return redirect("/api/admin")
 
 @app.route('/api/logout', methods=['GET', 'POST'])
 def Logout():

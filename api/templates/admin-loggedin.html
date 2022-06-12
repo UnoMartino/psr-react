@@ -22,6 +22,24 @@
     </header>
     <div class="parent">
         <div class="flex flex-col items-center">
+            <div>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Tryb wyświetlania "Teraz gramy":</h3>
+                <p class="font-baloo text-base text-zinc-200 font-medium">{{ session['getNowRunningMode'] }}</p>
+
+                <form style="flex: none;" action="/api/set-mode" method="POST" id="set-mode">
+                    <h3 class="font-baloo text-xl text-zinc-200 font-medium">Ustaw tryb</h3>
+                    <input type="radio" name="mode" id="spotify" value="spotify">
+                    <label class="font-baloo text-zinc-200 font-medium" for="spotify">Spotify</label><br>
+                    <input type="radio" name="mode" id="radiodj" value="radiodj">
+                    <label class="font-baloo text-zinc-200 font-medium" for="radiodj">RadioDJ</label>
+    
+    
+                    <br><br>
+                    <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Zapisz">
+                </form>
+
+            </div>
+            <hr style="width: 100px; margin-top: 10px;">
             <form action="/api/blacklists" method="POST" id="blacklist">
                 <h3 class="font-baloo text-xl text-zinc-200 font-medium">Utwory na blackliście</h3>
                 {% for i in session['blacklistSongsList'] %}
@@ -57,7 +75,7 @@
                 <button type="submit" name="delete" value="butA{{ loop.index }}">Usuń</button><br>
                 {% endfor %}
             </form>
-
+            <hr style="width: 100px;">
             <form style="flex: none;" action="/api/def-blacklist" method="POST" id="add-blacklist">
                 <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodaj na blacklistę</h3>
                 <label class="font-baloo text-zinc-200 font-medium" for="spotifyId">Spotify ID:</label><br>

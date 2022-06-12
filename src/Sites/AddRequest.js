@@ -147,6 +147,16 @@ class AddRequest extends React.Component {
                 
             }
 
+            if (response[0].Mode === "error")
+            {
+                this.setState({response: true});
+                this.setState({error: response[0].Error});
+                this.setState({description: response[0].Description});
+                this.setState({mode: response[0].Mode});
+                this.setState({reset: false});
+                
+            }
+
             if (response[0].Mode === "multi") 
             {
                 this.setState({response: true});
@@ -416,7 +426,10 @@ class AddRequest extends React.Component {
                 <div className="mt-10">
                     <form id='urlForm' className="flex flex-col" onSubmit={this.submitHandler}>
                         <div className="font-baloo text-xl text-zinc-200 font-medium">
-                            Podaj link (Spotify lub YouTube):
+                            Podaj link (Spotify lub YouTube*):
+                        </div>
+                        <div className='font-baloo text-base text-zinc-200'>
+                            *Jeśli przy użyciu linku z YouTube wystąpią jakieś problemy, należy skorzystać ze Spotify
                         </div>
                         <input className="mt-2 form-input px-4 py-3 rounded-full w-full lg:w-96" type="url" id="urlField" name="urlField" required value={this.state.url} onChange={(e) => this.handleChange({ url: e.target.value })}/>
                         <div className='flex flex-row mt-4 items-center'>
@@ -488,7 +501,7 @@ class AddRequest extends React.Component {
                                                 Wybierz poprawną piosenkę
                                             </div>
 
-                                            <div className='mt-10 flex flex-col items-center'>
+                                            <div className='mt-10 flex flex-col items-center py-2'>
                                                 {this.state.curses === false &&
                                                 <>
                                                     <div>

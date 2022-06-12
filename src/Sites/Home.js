@@ -31,24 +31,75 @@ class Home extends React.Component {
     }
     fetchNowPlaying() {
         fetch(
-            "/api/now-playing", {
-                "method": "GET",
+            "/api/config", {
+                "method": "POST",
                 "headers": {
                     "content-type": "application/json",
                     "accept": "application/json",
                 },
+                "body": JSON.stringify({
+                    Mode: "SpotifyOrRadioDJ"
+                })
             }
         )
         .then(response => response.json())
         .then(response => {
             console.log(response);
-            this.setState({response: true});
-            this.setState({author: response.Artist});
-            this.setState({image: response.Image});
-            this.setState({text: response.Text});
-            this.setState({title: response.Title});
-            this.setState({playing: response.IsPlaying});
-            this.setState({url: response.Link});
+            if (response.Mode === "spotify") {
+                fetch(
+                    "/api/now-playing", {
+                        "method": "GET",
+                        "headers": {
+                            "content-type": "application/json",
+                            "accept": "application/json",
+                        },
+                    }
+                )
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    this.setState({response: true});
+                    this.setState({author: response.Artist});
+                    this.setState({image: response.Image});
+                    this.setState({text: response.Text});
+                    this.setState({title: response.Title});
+                    this.setState({playing: response.IsPlaying});
+                    this.setState({url: response.Link});
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+                this.sleep(3000).then(r => {
+                    this.close()
+                  });
+            }
+            else if (response.Mode === "radiodj") {
+                fetch(
+                    "/api/get-now-radiodj", {
+                        "method": "GET",
+                        "headers": {
+                            "content-type": "application/json",
+                            "accept": "application/json",
+                        },
+                    }
+                )
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    this.setState({response: true});
+                    this.setState({author: response.Artist});
+                    this.setState({image: response.Image});
+                    this.setState({text: response.Text});
+                    this.setState({title: response.Title});
+                    this.setState({playing: response.IsPlaying});
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+                this.sleep(3000).then(r => {
+                    this.close()
+                  });
+            }
         })
         .catch(err => {
             console.log(err);
@@ -56,6 +107,12 @@ class Home extends React.Component {
         this.sleep(3000).then(r => {
             this.close()
       	});
+
+
+
+
+
+        
         
     }
     sleep = (milliseconds) => {
