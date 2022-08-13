@@ -343,12 +343,11 @@ def SpotifyAPI(url):
 
 
 def getNowPlaying():
-    file = 'tekore.cfg'
-    conf = tk.config_from_file(file, return_refresh=True)
-    token = tk.refresh_user_token(*conf[:2], conf[3])
+    file = 'tekore.cfg'   
+    conf = tk.config_from_file(file, return_refresh=True)   
+    token = tk.refresh_user_token(*conf[:2], conf[3]) 
     print(token)
     spotifyAnswer = requests.get("https://api.spotify.com/v1/me/player?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(token)}).text
-    print(requests.get("https://api.spotify.com/v1/me/player?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(token)}))
     print(spotifyAnswer)
     spotifyAnswerJsonFormatted = json.loads(spotifyAnswer)
 
@@ -365,6 +364,28 @@ def getNowPlaying():
     nowPlayingId = spotifyAnswerJsonFormatted['item']['id']
     nowPlayingImage = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + nowPlayingId + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(token)}).text)['album']['images'][1]['url']
 
+
+    database = mysql.connector.connect(
+            host=variables.databaseHost,
+            user=variables.databaseUser,
+            password=variables.databasePassword,
+            database=variables.databaseDatabase
+        )
+
+    id = nowPlayingId
+
+    lyricsSearch = database.cursor()
+    lyricsSearch.execute("SELECT lyrics FROM `lyrics-cache` WHERE spotifyId = %s", (id,))
+    lyricsSearchResult = lyricsSearch.fetchone()
+    # for x in lyricsSearchResult:
+    #     if id in x:
+    #         return finalResult, {'error':False}
+    
+    if lyricsSearchResult != None:
+        nowPlayingLyrics = lyricsSearchResult[0]
+        print(nowPlayingLyrics)
+        return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics, isPlaying, nowPlayingImage]
+        
 
     tekstowoQueryResult = tekstowoSearch(nowPlayingArtist, nowPlayingTitle)
 
