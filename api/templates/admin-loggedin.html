@@ -39,6 +39,23 @@
                 </form>
 
             </div>
+            <div>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodawać automatycznie teksty do cache?:</h3>
+                <p class="font-baloo text-base text-zinc-200 font-medium">{{ session['getCacheMode'] }}</p>
+
+                <form style="flex: none;" action="/api/set-cache" method="POST" id="set-cache">
+                    <h3 class="font-baloo text-xl text-zinc-200 font-medium">Ustaw tryb</h3>
+                    <input type="radio" name="mode" id="true" value="true">
+                    <label class="font-baloo text-zinc-200 font-medium" for="true">true</label><br>
+                    <input type="radio" name="mode" id="false" value="false">
+                    <label class="font-baloo text-zinc-200 font-medium" for="false">false</label>
+    
+    
+                    <br><br>
+                    <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Zapisz">
+                </form>
+
+            </div>
             <hr style="width: 100px; margin-top: 10px;">
             <form action="/api/blacklists" method="POST" id="blacklist">
                 <h3 class="font-baloo text-xl text-zinc-200 font-medium">Utwory na blackliście</h3>

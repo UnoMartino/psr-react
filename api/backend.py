@@ -237,6 +237,7 @@ def Admin():
 
                 config = helper.read_config()
                 session['getNowRunningMode'] = config['NowPlaying']['Mode']
+                session['getCacheMode'] = config['Cache']['enabled']
 
                 return render_template('admin-loggedin.html')
 
@@ -465,10 +466,22 @@ def DefineWhitelist():
         return redirect("/api/admin")
 
 @app.route('/api/set-mode', methods=['GET', 'POST'])
-def SetMode():
+def SetNowPlayingMode():
     try:
         config = helper.read_config()
         config['NowPlaying']['Mode'] = request.form['mode']
+        with open('configurations.ini', 'w') as file_object:
+            config.write(file_object)
+    except:
+        return redirect("/api/admin")
+
+    return redirect("/api/admin")
+
+@app.route('/api/set-cache', methods=['GET', 'POST'])
+def SetCacheMode():
+    try:
+        config = helper.read_config()
+        config['Cache']['Enabled'] = request.form['mode']
         with open('configurations.ini', 'w') as file_object:
             config.write(file_object)
     except:

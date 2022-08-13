@@ -1,10 +1,12 @@
 from email import header
+from secrets import choice
 from httpx import head
 import requests, json
 import tekore as tk
 from bs4 import BeautifulSoup
 import variables
 import mysql.connector
+import helper
 
 
 def tekstowoSearch(author, title):
@@ -383,7 +385,7 @@ def getNowPlaying():
     
     if lyricsSearchResult != None:
         nowPlayingLyrics = lyricsSearchResult[0]
-        print(nowPlayingLyrics)
+        print("DEBUG MSG (LYRICS FROM CACHE): ", nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics)
         return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics, isPlaying, nowPlayingImage]
         
 
@@ -393,8 +395,20 @@ def getNowPlaying():
         return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, "Błąd: nie znaleziono tekstu", isPlaying, nowPlayingImage]
     else:
         nowPlayingLyrics = tekstowoQueryResult[0]
-        print("DEBUG MSG: ", nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics)
-        return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics, isPlaying, nowPlayingImage]
+        
+        config = helper.read_config()
+        cacheMode = config['Cache']['Enabled']
+        print("CACHE MODE: ", cacheMode)
+
+        if cacheMode == "true":
+            print("SQL ADD TO CACHE: ", id, "\n", nowPlayingLyrics)
+            lyricsAdd = database.cursor()
+            lyricsAdd.execute("INSERT INTO `lyrics-cache` (spotifyId, lyrics) VALUES (%s, %s)", (id, nowPlayingLyrics))
+            database.commit()
+            return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics, isPlaying, nowPlayingImage]
+        elif cacheMode == "false":
+            print("DEBUG MSG (DIDN'T ADD TO CACHE): ", "\n", nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics)
+            return [nowPlayingTitle, nowPlayingArtist, nowPlayingLink, nowPlayingLyrics, isPlaying, nowPlayingImage]
         
 
     
