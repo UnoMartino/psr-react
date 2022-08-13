@@ -1,5 +1,5 @@
 # radio-song-requester
-## STILL WORK IN PROGRESS
+## STILL WORK IN PROGRESS (Not ready for use)
 ### Radio Song Requester pozwala zobaczyć, co jest aktualnie grane w radiowęźle, oraz umożliwia zaproponowanie następnych piosenek. Integracja ze Spotify i serwisem Tekstowo.pl zapewnia szybką i zautomatyzowaną weryfikację zgłoszeń.
 
 ## Installation
