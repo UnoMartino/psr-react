@@ -3,6 +3,7 @@ import ContentContainer from './Elements/ContentContainer';
 import React from 'react'
 import { BsPlus, BsGearFill } from 'react-icons/bs';
 import { MdRadio } from "react-icons/md";
+import logo from './logo.png';
 
 class Menu extends React.Component {
   constructor(props) {
