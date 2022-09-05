@@ -4,6 +4,7 @@ from httpx import head
 import requests, json
 import tekore as tk
 from bs4 import BeautifulSoup
+from SpotifyIntegration import AddToLogPlaylist
 import variables
 import mysql.connector
 import helper
@@ -196,6 +197,15 @@ def SpotifyAPI(url):
         spoti = True
 
     searchResult = tekstowoSearch(search_result[0], search_result[1])
+
+
+    # Add not accepted positions to another playlist
+    if ("spotify" in url) and (searchResult[1] or searchResult[2]):
+
+        AddToLogPlaylist(tk.from_url(url)[1])
+
+
+
 
     for i in variables.czech_symbols:
         if i in searchResult[0]:

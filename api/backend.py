@@ -531,6 +531,7 @@ if __name__ == "__main__":
     variables.databaseUser = str(sys.argv[6])
     variables.databasePassword = str(sys.argv[7])
     variables.databaseDatabase = str(sys.argv[8])
+    variables.playlistNotAcceptedId = str(sys.argv[9])
     app.run(host="0.0.0.0", port=8080)
 
 ##########################################
