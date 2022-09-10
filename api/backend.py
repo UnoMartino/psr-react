@@ -168,6 +168,16 @@ def AddSong():
     return None
 
 
+@app.route('/api/get-message', methods=['GET', 'POST'])
+def GetMessage():
+    config = helper.read_config()
+    homepageMessage = config['Message']['Message']
+    data = {
+        "Message":homepageMessage
+    }
+    return jsonify(data)
+
+
 
 
 
@@ -188,61 +198,10 @@ def Admin():
         try: 
             if session['loggedIn'] == True:
 
-                database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-                )
-                sqlQueryBS = 'SELECT * FROM `blacklist-songs`'
-                blacklistSongs = database.cursor()
-                blacklistSongs.execute(sqlQueryBS)
-                blacklistSongsList = blacklistSongs.fetchall()
-
-                session['blacklistSongsList'] = blacklistSongsList
-
-                database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-                )
-                sqlQueryBA = 'SELECT * FROM `blacklist-artists`'
-                blacklistArtists = database.cursor()
-                blacklistArtists.execute(sqlQueryBA)
-                blacklistArtistsList = blacklistArtists.fetchall()
-
-                session['blacklistArtistsList'] = blacklistArtistsList
-
-                database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-                )
-                sqlQueryWS = 'SELECT * FROM `whitelist-songs`'
-                whitelistSongs = database.cursor()
-                whitelistSongs.execute(sqlQueryWS)
-                whitelistSongsList = whitelistSongs.fetchall()
-
-                session['whitelistSongsList'] = whitelistSongsList
-
-                database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-                )
-                sqlQueryWA = 'SELECT * FROM `whitelist-artists`'
-                whitelistArtists = database.cursor()
-                whitelistArtists.execute(sqlQueryWA)
-                whitelistArtistsList = whitelistArtists.fetchall()
-
-                session['whitelistArtistsList'] = whitelistArtistsList
-
                 config = helper.read_config()
                 session['getNowRunningMode'] = config['NowPlaying']['Mode']
                 session['getCacheMode'] = config['Cache']['enabled']
+                session['homepageMessage'] = config['Message']['Message']
 
                 return render_template('admin-loggedin.html')
 
@@ -300,6 +259,56 @@ def SetCacheMode():
         return redirect("/api/admin")
 
     return redirect("/api/admin")
+
+@app.route('/api/set-message', methods=['GET', 'POST'])
+def SetMessage():
+    try:
+        config = helper.read_config()
+        config['Message']['Message'] = request.form['message']
+        with open('configurations.ini', 'w') as file_object:
+            config.write(file_object)
+    except:
+        return redirect("/api/admin")
+
+    return redirect("/api/admin")
+
+@app.route('/api/add-cache', methods=['GET', 'POST'])
+def AddCache():
+    database = mysql.connector.connect(
+        host=variables.databaseHost,
+        user=variables.databaseUser,
+        password=variables.databasePassword,
+        database=variables.databaseDatabase
+    )
+    mycursor = database.cursor()
+
+    if len(str(request.form['id'])) > 22:
+        id = tk.from_url(str(request.form['id']))[1]
+    else:
+        id = request.form['id']
+
+    lyrics = request.form['lyrics']
+
+
+    mycursor.execute("SELECT spotifyId FROM `lyrics-cache`")
+    cachedIds = mycursor.fetchall()
+    for x in cachedIds:
+        if id in x:
+            mycursor = database.cursor()
+            sqlQuery = 'UPDATE `lyrics-cache` SET `lyrics` = %s WHERE `spotifyId` = %s'
+            values = (lyrics, id)
+            mycursor.execute(sqlQuery, values)
+            database.commit()
+            return redirect("/api/admin")
+
+    mycursor = database.cursor()
+    sqlQuery = 'INSERT INTO `lyrics-cache` (`id`, `spotifyId`, `lyrics`) VALUES (NULL, %s, %s)'
+    values = (id, lyrics)
+    mycursor.execute(sqlQuery, values)
+    database.commit()
+    return redirect("/api/admin")
+
+
 
 @app.route('/api/logout', methods=['GET', 'POST'])
 def Logout():

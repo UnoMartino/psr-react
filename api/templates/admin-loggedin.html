@@ -39,6 +39,9 @@
                 </form>
 
             </div>
+
+            <hr style="width: 100px; margin-top: 10px;">
+
             <div>
                 <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodawać automatycznie teksty do cache?:</h3>
                 <p class="font-baloo text-base text-zinc-200 font-medium">{{ session['getCacheMode'] }}</p>
@@ -56,8 +59,40 @@
                 </form>
 
             </div>
+
+            <hr style="width: 100px; margin-top: 10px;">
+
+            <div>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodaj tekst do cache ręcznie:</h3>
+
+                <form style="flex: none;" action="/api/add-cache" method="POST" id="set-message">
+                    <h3 class="font-baloo text-xl text-zinc-200 font-medium">Dodaj tekst:</h3>
+                    <label class="font-baloo text-zinc-200 font-medium" for="id">Spotify ID:</label><br>
+                    <input type="text" name="id" id="id"><br>
+                    <label class="font-baloo text-zinc-200 font-medium" for="lyrics">Tekst:</label><br>
+                    <textarea rows="20" cols="60" name="lyrics" placeholder="Wpisz tekst (jako HTML)"></textarea>
+                    
+                    <br><br>
+                    <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Zapisz">
+                </form>
+
+            </div>
+
             <hr style="width: 100px; margin-top: 10px;">
             
+            <div>
+                <h3 class="font-baloo text-xl text-zinc-200 font-medium">Wiadomość na stronie głównej:</h3>
+                <p class="font-baloo text-base text-zinc-200 font-medium">{{ session['homepageMessage'] }}</p>
+
+                <form style="flex: none;" action="/api/set-message" method="POST" id="set-message">
+                    <h3 class="font-baloo text-xl text-zinc-200 font-medium">Ustaw wiadomość (HTML):</h3>
+                    <label class="font-baloo text-zinc-200 font-medium" for="message">Wiadomość:</label><br>
+                    <textarea rows="20" cols="60" name="message" placeholder="Wpisz wiadomość (jako HTML)" ></textarea>
+                    <br><br>
+                    <input class="h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold" type="submit" value="Zapisz">
+                </form>
+
+            </div>
 
             <div id="error" style="padding-top: 10px;">
                 {% block error %}

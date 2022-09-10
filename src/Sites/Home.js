@@ -13,11 +13,13 @@ class Home extends React.Component {
             image: '',
             showDiv: false,
             updating: false,
+            homepageMessage: '',
         };
         this.buttonClick = this.buttonClick.bind(this);
         this.fetchNowPlaying = this.fetchNowPlaying.bind(this);
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.getHomepageMessage = this.getHomepageMessage.bind(this);
     }
     open() {
         this.setState({showDiv: true});
@@ -27,7 +29,25 @@ class Home extends React.Component {
     }
     buttonClick() {
         this.open();
+        this.getHomepageMessage();
         this.fetchNowPlaying();
+    }
+    getHomepageMessage() {
+        fetch(
+            "/api/get-message", {
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                    "accept": "application/json",
+                },
+            }
+        )
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            this.setState({homepageMessage: response.Message});
+        })
+
     }
     fetchNowPlaying() {
         fetch(
@@ -140,6 +160,8 @@ class Home extends React.Component {
                             {this.state.showDiv === false && (
                                     <div className='mt-2 font-baloo text-2xl text-zinc-200 font-normal text-center'>Błąd komunikacji z serwerem</div>
                             )}
+                            <div className="mt-2 font-baloo text-2xl text-zinc-200 font-normal text-center" dangerouslySetInnerHTML={{__html: this.state.homepageMessage}}></div>
+
                         </div>
                     </div>
                 )}
@@ -165,8 +187,11 @@ class Home extends React.Component {
                                 {this.state.showDiv === true && (
                                     <div className='spin ml-3'></div>
                                 )}
+                                <br/>
                                 </div>
+                                <div className="mt-2 font-baloo text-2xl text-zinc-200 font-normal text-center" dangerouslySetInnerHTML={{__html: this.state.homepageMessage}}></div>
                             </div>
+                            
                         </div>
                         <div className="flex-auto">
                             <div className="mt-10 lg:mt-0 font-baloo text-4xl text-zinc-200 font-normal" >
