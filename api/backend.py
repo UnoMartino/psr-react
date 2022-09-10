@@ -346,6 +346,8 @@ if __name__ == "__main__":
     variables.playlistNotAcceptedId = str(sys.argv[9])
     variables.blacklistSongsPlaylistId = str(sys.argv[10])
     variables.blacklistArtistsPlaylistId = str(sys.argv[11])
+    variables.whitelistSongsPlaylistId = str(sys.argv[12])
+    variables.whitelistArtistsPlaylistId = str(sys.argv[13])
     app.run(host="0.0.0.0", port=8080)
 
 ##########################################
