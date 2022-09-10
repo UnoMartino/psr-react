@@ -197,7 +197,7 @@ class Home extends React.Component {
                             <div className="mt-10 lg:mt-0 font-baloo text-4xl text-zinc-200 font-normal" >
                                 Tekst
                             </div>
-                            <div className="mt-4 mb-10 font-baloo text-zinc-200 font-normal" dangerouslySetInnerHTML={{__html: this.state.text}}>
+                            <div className="mt-4 mb-10 font-baloo text-zinc-200 font-normal max-w-lg" dangerouslySetInnerHTML={{__html: this.state.text}}>
 
                             </div>
                         </div>
