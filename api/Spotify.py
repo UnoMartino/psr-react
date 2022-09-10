@@ -217,7 +217,8 @@ def SpotifyAPI(url):
     app_token = tk.request_client_token(variables.client_id, variables.client_secret) 
     if spoti:
         # whitelist check
-
+        app_token = tk.request_client_token(variables.client_id, variables.client_secret)
+        spotify = tk.Spotify(app_token)
         id = tk.from_url(url)[1]
         artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
 
