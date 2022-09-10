@@ -189,7 +189,7 @@ class Home extends React.Component {
                                 )}
                                 <br/>
                                 </div>
-                                <div className="mt-2 font-baloo text-2xl text-zinc-200 font-normal text-center" dangerouslySetInnerHTML={{__html: this.state.homepageMessage}}></div>
+                                <div className="mt-2 font-baloo text-2xl text-zinc-200 font-normal text-center max-w-xl" dangerouslySetInnerHTML={{__html: this.state.homepageMessage}}></div>
                             </div>
                             
                         </div>
