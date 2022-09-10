@@ -29,6 +29,7 @@ class AddRequest extends React.Component {
             text2: '',
             title2: '',
             showText2: false,
+            url2: '',
 
             author3: '',
             curses3: false,
@@ -37,6 +38,7 @@ class AddRequest extends React.Component {
             text3: '',
             title3: '',
             showText3: false,
+            url3: '',
 
             author4: '',
             curses4: false,
@@ -45,6 +47,7 @@ class AddRequest extends React.Component {
             text4: '',
             title4: '',
             showText4: false,
+            url4: '',
 
             author5: '',
             curses5: false,
@@ -53,6 +56,7 @@ class AddRequest extends React.Component {
             text5: '',
             title5: '',
             showText5: false,
+            url5: '',
 
         };
         this.done = this.done.bind(this);
@@ -72,6 +76,7 @@ class AddRequest extends React.Component {
         this.showText3 = this.showText3.bind(this);
         this.showText4 = this.showText4.bind(this);
         this.showText5 = this.showText5.bind(this);
+        this.actuallyAddToPlaylist = this.actuallyAddToPlaylist.bind(this);
 
     }
     open() {
@@ -144,6 +149,7 @@ class AddRequest extends React.Component {
                 this.setState({image: response[1].Image});
                 this.setState({text: response[1].Text});
                 this.setState({title: response[1].Title});
+                this.setState({url: response[1].Url});
                 
             }
 
@@ -169,12 +175,15 @@ class AddRequest extends React.Component {
 
                 if (this.state.length >= 2)
                 {
+                    
                     this.setState({author: response[1].Author});
                     this.setState({curses: response[1].Curses});
                     this.setState({id: response[1].Id});
                     this.setState({image: response[1].Image});
                     this.setState({text: response[1].Text});
                     this.setState({title: response[1].Title});
+                    this.setState({url: response[1].Url});
+                    
 
                     this.setState({author2: response[2].Author});
                     this.setState({curses2: response[2].Curses});
@@ -182,6 +191,7 @@ class AddRequest extends React.Component {
                     this.setState({image2: response[2].Image});
                     this.setState({text2: response[2].Text});
                     this.setState({title2: response[2].Title});
+                    this.setState({url2: response[2].Url});
 
                     if (this.state.length >= 3)
                     {
@@ -191,6 +201,7 @@ class AddRequest extends React.Component {
                         this.setState({image3: response[3].Image});
                         this.setState({text3: response[3].Text});
                         this.setState({title3: response[3].Title});
+                        this.setState({url3: response[3].Url});
 
                         if (this.state.length >= 4)
                         {
@@ -200,6 +211,7 @@ class AddRequest extends React.Component {
                             this.setState({image4: response[4].Image});
                             this.setState({text4: response[4].Text});
                             this.setState({title4: response[4].Title});
+                            this.setState({url4: response[4].Url});
 
                             if (this.state.length === 5)
                             {
@@ -209,6 +221,7 @@ class AddRequest extends React.Component {
                                 this.setState({image5: response[5].Image});
                                 this.setState({text5: response[5].Text});
                                 this.setState({title5: response[5].Title});
+                                this.setState({url5: response[5].Url});
                             }
                         }
                     }
@@ -220,78 +233,25 @@ class AddRequest extends React.Component {
         });
     }
     addToPlaylist() {
-        fetch(
-            "/api/add-song", {
-                "method": "POST",
-                "headers": {
-                  "content-type": "application/json",
-                  "accept": "application/json"
-            },
-            "body": JSON.stringify({
-                id: this.state.id
-            })
-        })
-        .then(response => console.log(response))
-        .catch(err => {
-            console.log(err);
-        });
-        this.done();
+        this.buttonClick();
     }
     addToPlaylist2() {
-        fetch(
-            "/api/add-song", {
-                "method": "POST",
-                "headers": {
-                  "content-type": "application/json",
-                  "accept": "application/json"
-            },
-            "body": JSON.stringify({
-                id: this.state.id2
-            })
-        })
-        .then(response => console.log(response))
-        .catch(err => {
-            console.log(err);
-        });
-        this.done();
+        this.state.url = this.state.url2;
+        this.buttonClick();
     }
     addToPlaylist3() {
-        fetch(
-            "/api/add-song", {
-                "method": "POST",
-                "headers": {
-                  "content-type": "application/json",
-                  "accept": "application/json"
-            },
-            "body": JSON.stringify({
-                id: this.state.id3
-            })
-        })
-        .then(response => console.log(response))
-        .catch(err => {
-            console.log(err);
-        });
-        this.done();
+        this.state.url = this.state.url3;
+        this.buttonClick();
     }
     addToPlaylist4() {
-        fetch(
-            "/api/add-song", {
-                "method": "POST",
-                "headers": {
-                  "content-type": "application/json",
-                  "accept": "application/json"
-            },
-            "body": JSON.stringify({
-                id: this.state.id4
-            })
-        })
-        .then(response => console.log(response))
-        .catch(err => {
-            console.log(err);
-        });
-        this.done();
+        this.state.url = this.state.url4;
+        this.buttonClick();
     }
     addToPlaylist5() {
+        this.state.url = this.state.url5;
+        this.buttonClick();
+    }
+    actuallyAddToPlaylist() {
         fetch(
             "/api/add-song", {
                 "method": "POST",
@@ -300,7 +260,7 @@ class AddRequest extends React.Component {
                   "accept": "application/json"
             },
             "body": JSON.stringify({
-                id: this.state.id5
+                url: this.state.url
             })
         })
         .then(response => console.log(response))
@@ -321,7 +281,6 @@ class AddRequest extends React.Component {
         this.setState({description: ''});
         this.setState({mode: ''});
         this.setState({reset: true});
-        this.setState({url: ''});
 
         this.setState({author2: ''});
         this.setState({curses2: ''});
@@ -466,7 +425,7 @@ class AddRequest extends React.Component {
                                             Znaleziono poprawną piosenkę?
                                         </div>
                                         <div className='flex flex-row mt-4 items-center'>
-                                            <button className='h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' onClick={this.addToPlaylist}>Tak</button>
+                                            <button className='h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' onClick={this.actuallyAddToPlaylist}>Tak</button>
                                             <button className='ml-2 h-12 w-24 bg-zinc-600 rounded-3xl hover:bg-sky-500 hover:text-zinc-600 border-0 transition-all duration-300 text-sky-500 font-baloo text-xl font-semibold' onClick={this.reset}>Nie</button>
                                         </div>
                                         <div className='font-baloo text-zinc-200 font-normal text-center mb-10 mt-4' dangerouslySetInnerHTML={{__html: this.state.text}}>

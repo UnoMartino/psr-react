@@ -5,7 +5,9 @@ import Menu from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
+  <React.StrictMode>
     <Menu />,
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

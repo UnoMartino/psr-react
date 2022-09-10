@@ -158,7 +158,12 @@ def Spotify():
 
 @app.route('/api/add-song', methods=['GET', 'POST'])
 def AddSong():
-    idFromJson = request.get_json()['id']
+    requestJson = request.get_json()
+    if 'id' in requestJson:
+        idFromJson = requestJson['id']
+    elif 'url' in requestJson:
+        urlFromJson = requestJson['url']
+        idFromJson = tk.from_url(urlFromJson)[1]
     AddToPlaylist(idFromJson)
     return None
 
@@ -272,199 +277,6 @@ def Admin():
             return render_template('admin-e-index-universal.html', form=form, e="")
 
 
-
-@app.route('/api/blacklists', methods=['GET', 'POST'])
-def Blacklists():
-    try:
-        if "butS" in str(request.form['delete']):
-            idOfSongMeantToDeletion = str(request.form['delete'])[4:]
-            spotifyIdOfSongMeantToDeletion = str(session['blacklistSongsList'][int(idOfSongMeantToDeletion)-1][1])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryDelSong = 'DELETE FROM `blacklist-songs` WHERE spotifyID = "' + spotifyIdOfSongMeantToDeletion + '"'
-            deleteSong = database.cursor()
-            deleteSong.execute(sqlQueryDelSong)
-            database.commit()
-
-            return redirect("/api/admin")
-
-        if "butA" in str(request.form['delete']):
-            idOfArtistMeantToDeletion = str(request.form['delete'])[4:]
-            spotifyIdOfArtistMeantToDeletion = str(session['blacklistArtistsList'][int(idOfArtistMeantToDeletion)-1][1])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryDelArtist = 'DELETE FROM `blacklist-artists` WHERE spotifyID = "' + spotifyIdOfArtistMeantToDeletion + '"'
-            deleteArtist = database.cursor()
-            deleteArtist.execute(sqlQueryDelArtist)
-            database.commit()
-
-            return redirect("/api/admin")
-    
-    except:
-        return redirect("/api/admin")
-
-@app.route('/api/whitelists', methods=['GET', 'POST'])
-def Whitelists():
-    try:
-        if "butS" in str(request.form['delete']):
-            idOfSongMeantToDeletion = str(request.form['delete'])[4:]
-            spotifyIdOfSongMeantToDeletion = str(session['whitelistSongsList'][int(idOfSongMeantToDeletion)-1][1])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryDelSong = 'DELETE FROM `whitelist-songs` WHERE spotifyID = "' + spotifyIdOfSongMeantToDeletion + '"'
-            deleteSong = database.cursor()
-            deleteSong.execute(sqlQueryDelSong)
-            database.commit()
-
-            return redirect("/api/admin")
-
-        if "butA" in str(request.form['delete']):
-            idOfArtistMeantToDeletion = str(request.form['delete'])[4:]
-            spotifyIdOfArtistMeantToDeletion = str(session['whitelistArtistsList'][int(idOfArtistMeantToDeletion)-1][1])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryDelArtist = 'DELETE FROM `whitelist-artists` WHERE spotifyID = "' + spotifyIdOfArtistMeantToDeletion + '"'
-            deleteArtist = database.cursor()
-            deleteArtist.execute(sqlQueryDelArtist)
-            database.commit()
-
-            return redirect("/api/admin")
-    
-    except:
-        return redirect("/api/admin")
-    
-
-@app.route('/api/def-blacklist', methods=['GET', 'POST'])
-def DefineBlacklist():
-    try:
-        if request.form['AorS'] == "song":
-            print(len(str(request.form['spotifyId'])))
-            print(request.form['spotifyId'])
-            if len(str(request.form['spotifyId'])) > 22:
-                id = tk.from_url(str(request.form['spotifyId']))[1]
-                url = str(request.form['spotifyId'])
-                print(id)
-            if len(str(request.form['spotifyId'])) == 22:
-                url = tk.to_url('track', str(request.form['spotifyId']))
-                id = str(request.form['spotifyId'])
-
-            print(id)
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryAddSong = 'INSERT INTO `blacklist-songs` (spotifyId, name) VALUES (%s, %s)'
-            addSong = database.cursor()
-            artistAndSongName = spotifyNameCheck(url)
-            addSong.execute(sqlQueryAddSong, (id, artistAndSongName[0] + " - " + artistAndSongName[1]))
-            database.commit()
-
-            return redirect("/api/admin")
-
-        if request.form['AorS'] == "artist":
-            if len(str(request.form['spotifyId'])) > 22:
-                id = tk.from_url(str(request.form['spotifyId']))[1]
-                print(id)
-            if len(str(request.form['spotifyId'])) == 22:
-                id = str(request.form['spotifyId'])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryAddArtist = 'INSERT INTO `blacklist-artists` (spotifyId, name) VALUES (%s, %s)'
-            addArtist = database.cursor()
-            app_token = tk.request_client_token(variables.client_id, variables.client_secret)
-            spotify = tk.Spotify(app_token)
-            artistName = spotify.artist(id).name
-            addArtist.execute(sqlQueryAddArtist, (id, artistName))
-            database.commit()
-
-            return redirect("/api/admin")
-    
-    except:
-        return redirect("/api/admin")
-
-
-@app.route('/api/def-whitelist', methods=['GET', 'POST'])
-def DefineWhitelist():
-    try:
-        if request.form['AorS'] == "song":
-            print(len(str(request.form['spotifyId'])))
-            print(request.form['spotifyId'])
-            if len(str(request.form['spotifyId'])) > 22:
-                id = tk.from_url(str(request.form['spotifyId']))[1]
-                url = str(request.form['spotifyId'])
-                print(id)
-            if len(str(request.form['spotifyId'])) == 22:
-                url = tk.to_url('track', str(request.form['spotifyId']))
-                id = str(request.form['spotifyId'])
-
-            print(id)
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryAddSong = 'INSERT INTO `whitelist-songs` (spotifyId, name) VALUES (%s, %s)'
-            addSong = database.cursor()
-            artistAndSongName = spotifyNameCheck(url)
-            addSong.execute(sqlQueryAddSong, (id, artistAndSongName[0] + " - " + artistAndSongName[1]))
-            database.commit()
-
-            return redirect("/api/admin")
-
-        if request.form['AorS'] == "artist":
-            if len(str(request.form['spotifyId'])) > 22:
-                id = tk.from_url(str(request.form['spotifyId']))[1]
-                print(id)
-            if len(str(request.form['spotifyId'])) == 22:
-                id = str(request.form['spotifyId'])
-
-            database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-            )
-            sqlQueryAddArtist = 'INSERT INTO `whitelist-artists` (spotifyId, name) VALUES (%s, %s)'
-            addArtist = database.cursor()
-            app_token = tk.request_client_token(variables.client_id, variables.client_secret)
-            spotify = tk.Spotify(app_token)
-            artistName = spotify.artist(id).name
-            addArtist.execute(sqlQueryAddArtist, (id, artistName))
-            database.commit()
-
-            return redirect("/api/admin")
-    
-    except:
-        return redirect("/api/admin")
-
 @app.route('/api/set-mode', methods=['GET', 'POST'])
 def SetNowPlayingMode():
     try:
@@ -532,6 +344,8 @@ if __name__ == "__main__":
     variables.databasePassword = str(sys.argv[7])
     variables.databaseDatabase = str(sys.argv[8])
     variables.playlistNotAcceptedId = str(sys.argv[9])
+    variables.blacklistSongsPlaylistId = str(sys.argv[10])
+    variables.blacklistArtistsPlaylistId = str(sys.argv[11])
     app.run(host="0.0.0.0", port=8080)
 
 ##########################################

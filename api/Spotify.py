@@ -217,67 +217,41 @@ def SpotifyAPI(url):
     app_token = tk.request_client_token(variables.client_id, variables.client_secret) 
     if spoti:
         # whitelist check
-        database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-        )
 
         id = tk.from_url(url)[1]
+        artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
 
-        whitelistSongs = database.cursor()
-        whitelistSongs.execute("SELECT spotifyId FROM `whitelist-songs`")
-        whitelistSongsResult = whitelistSongs.fetchall()
-        for x in whitelistSongsResult:
-            if id in x:
+
+        whitelistSongsPlaylist = spotify.playlist(playlist_id=variables.whitelistSongsPlaylistId)
+        whitelistArtistsPlaylist = spotify.playlist(playlist_id=variables.whitelistArtistsPlaylistId)
+        
+        for i in whitelistSongsPlaylist.tracks.items:
+            if id in i.track.id:
                 image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
                 finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
                 return finalResult, {'error':False}
-
-        whitelistArtists = database.cursor()
-        whitelistArtists.execute("SELECT spotifyId FROM `whitelist-artists`")
-        whitelistArtistsResult = whitelistArtists.fetchall()
-        artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
-        for x in whitelistArtistsResult:
-            if artistId in x:
+        for i in whitelistArtistsPlaylist.tracks.items:
+            if artistId in i.track.artists[0].id:
                 image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
                 finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
                 return finalResult, {'error':False}
 
     if not spoti:
         # whitelist check
-        database = mysql.connector.connect(
-            host=variables.databaseHost,
-            user=variables.databaseUser,
-            password=variables.databasePassword,
-            database=variables.databaseDatabase
-        )
 
         id = tk.from_url(url[0][choice]['url'])[1]
-
-        whitelistSongs = database.cursor()
-        whitelistSongs.execute("SELECT spotifyId FROM `whitelist-songs`")
-        whitelistSongsResult = whitelistSongs.fetchall()
-        for x in whitelistSongsResult:
-            if id in x:
-                image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
-                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
-                return finalResult, {'error':False}
-
-        whitelistArtists = database.cursor()
-        whitelistArtists.execute("SELECT spotifyId FROM `whitelist-artists`")
-        whitelistArtistsResult = whitelistArtists.fetchall()
         artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
-        for x in whitelistArtistsResult:
-            if artistId in x:
+
+        for i in whitelistSongsPlaylist.tracks.items:
+            if id in i.track.id:
                 image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
                 finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
                 return finalResult, {'error':False}
-
-
-
-
+        for i in whitelistArtistsPlaylist.tracks.items:
+            if artistId in i.track.artists[0].id:
+                image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
+                finalResult = [{'text':searchResult[0], 'curses':False, 'author':searchResult[5], 'found':searchResult[4], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
+                return finalResult, {'error':False}
 
 
 
@@ -294,31 +268,20 @@ def SpotifyAPI(url):
             id = spotify.track(tk.from_url(url)[1]).id
             artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
 
-            # blacklists check
-            database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-            )
-
-            blacklistSongs = database.cursor()
-            blacklistSongs.execute("SELECT spotifyId FROM `blacklist-songs`")
-            blacklistSongsResult = blacklistSongs.fetchall()
-            for x in blacklistSongsResult:
-                if id in x:
-                    return [], {'error':True, 'description':'Wybrana pozycja nie może zostać zaakceptowana.'}
-
-            blacklistArtists = database.cursor()
-            blacklistArtists.execute("SELECT spotifyId FROM `blacklist-artists`")
-            blacklistArtistsResult = blacklistArtists.fetchall()
-            for x in blacklistArtistsResult:
-                if artistId in x:
-                    return [], {'error':True, 'description':'Wybrany artysta nie może zostać zaakceptowany.'}
+            blacklistSongsPlaylist = spotify.playlist(playlist_id=variables.blacklistSongsPlaylistId)
+            blacklistArtistsPlaylist = spotify.playlist(playlist_id=variables.blacklistArtistsPlaylistId)
+            
+            for i in blacklistSongsPlaylist.tracks.items:
+                if id in i.track.id:
+                    return [], {'error':True, 'description':f'Znaleziono zablokowaną piosenkę na Spotify dla {searchResult[3]}'}
+            for i in blacklistArtistsPlaylist.tracks.items:
+                if artistId in i.track.artists[0].id:
+                    return [], {'error':True, 'description':f'Znaleziono zablokowanego artystę na Spotify dla {searchResult[3]}'}
 
             image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
-            finalResult = [{'text':tekst, 'curses':curses, 'searched':searchResult[3], 'author':searchResult[5], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
+            finalResult = [{'text':tekst, 'curses':curses, 'author':searchResult[5], 'found':searchResult[4], 'url':url, 'image':image, 'title':searchResult[6], 'id':id}]
             return finalResult, {'error':False}
+
         else:
             app_token = tk.request_client_token(variables.client_id, variables.client_secret)
             spotify = tk.Spotify(app_token)
@@ -326,26 +289,16 @@ def SpotifyAPI(url):
             artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
 
             # blacklists check
-            database = mysql.connector.connect(
-                host=variables.databaseHost,
-                user=variables.databaseUser,
-                password=variables.databasePassword,
-                database=variables.databaseDatabase
-            )
 
-            blacklistSongs = database.cursor()
-            blacklistSongs.execute("SELECT spotifyId FROM `blacklist-songs`")
-            blacklistSongsResult = blacklistSongs.fetchall()
-            for x in blacklistSongsResult:
-                if id in x:
-                    return [], {'error':True, 'description':'Wybrana pozycja nie może zostać zaakceptowana.'}
-
-            blacklistArtists = database.cursor()
-            blacklistArtists.execute("SELECT spotifyId FROM `blacklist-artists`")
-            blacklistArtistsResult = blacklistArtists.fetchall()
-            for x in blacklistArtistsResult:
-                if artistId in x:
-                    return [], {'error':True, 'description':'Wybrany artysta nie może zostać zaakceptowany.'}
+            blacklistSongsPlaylist = spotify.playlist(playlist_id=variables.blacklistSongsPlaylistId)
+            blacklistArtistsPlaylist = spotify.playlist(playlist_id=variables.blacklistArtistsPlaylistId)
+            
+            for i in blacklistSongsPlaylist.tracks.items:
+                if id in i.track.id:
+                    return [], {'error':True, 'description':f'Znaleziono zablokowaną piosenkę na Spotify dla {searchResult[3]}'}
+            for i in blacklistArtistsPlaylist.tracks.items:
+                if artistId in i.track.artists[0].id:
+                    return [], {'error':True, 'description':f'Znaleziono zablokowanego artystę na Spotify dla {searchResult[3]}'}
 
             image = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['album']['images'][1]['url']
             finalResult = [{'text':tekst, 'curses':curses, 'searched':searchResult[3], 'author':searchResult[5], 'url':url[0][choice]['url'], 'image':image, 'title':searchResult[6], 'id':id}]
