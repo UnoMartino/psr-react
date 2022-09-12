@@ -2,7 +2,7 @@ import './App.css';
 import ContentContainer from './Elements/ContentContainer';
 import React from 'react'
 import { BsPlus, BsGearFill } from 'react-icons/bs';
-import { MdRadio } from "react-icons/md";
+import { MdRadio, MdInfo } from "react-icons/md";
 import logo from './logo.png';
 
 class Menu extends React.Component {
@@ -19,6 +19,9 @@ class Menu extends React.Component {
   menuAdmin = () => {
     this.setState({menu: "admin"});
   }
+  menuInfo = () => {
+    this.setState({menu: "info"});
+  }
   componentDidMount() {
     document.title = "Radiowęzeł ZST";  
   }
@@ -30,6 +33,7 @@ class Menu extends React.Component {
           <SideBarIcon changeMenu={this.menuAdd} icon={<BsPlus size="32" />} text="Requesty"/>
           <Divider />
           <SideBarIcon changeMenu={this.menuAdmin} icon={<BsGearFill size="24" />} text="Administracja"/>
+          <SideBarIcon changeMenu={this.menuInfo} icon={<MdInfo size="24" />} text="Informacje"/>
       
         </div>
         <ContentContainer menu={this.state.menu}/>

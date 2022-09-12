@@ -3,6 +3,7 @@ import React from 'react'
 import Home from "../Sites/Home";
 import AddRequest from "../Sites/AddRequest";
 import Admin from "../Sites/Admin"
+import Info from "../Sites/Info";
 
 const ContentContainer = ({menu}) => {
     return (
@@ -22,6 +23,10 @@ const ContentContainer = ({menu}) => {
 
                 {menu === 'admin' && (
                     <Admin />
+                )}
+
+                {menu === 'info' && (
+                    <Info />
                 )}
             </div>
 
