@@ -330,34 +330,46 @@ if __name__ == "__main__":
         variables.setConfigVariables()
         variables.client_id = str(sys.argv[2])
         variables.client_secret = str(sys.argv[3])
-        ConfigureSpotifyAuth()    
+        ConfigureSpotifyAuth()   
+
+        config = helper.read_config()
+        config['Spotify']['client_id'] = str(sys.argv[2])
+        config['Spotify']['client_secret'] = str(sys.argv[3])
+        config['Spotify']['username'] = str(sys.argv[4])
+        config['Spotify']['review_playlist_id'] = str(sys.argv[5])
+        config['Spotify']['rejected_playlist_id'] = str(sys.argv[10])
+        config['Spotify']['blacklist_songs_playlist_id'] = str(sys.argv[11])
+        config['Spotify']['blacklist_artists_playlist_id'] = str(sys.argv[12])
+        config['Spotify']['whitelist_songs_playlist_id'] = str(sys.argv[13])
+        config['Spotify']['whitelist_artists_playlist_id'] = str(sys.argv[14])
+        config['Spotify']['queue_playlist_id'] = str(sys.argv[15])
+        config['Spotify']['db_host'] = str(sys.argv[6])
+        config['Spotify']['db_user'] = str(sys.argv[7])
+        config['Spotify']['db_password'] = str(sys.argv[8])
+        config['Spotify']['db_database'] = str(sys.argv[9])
+        with open('configurations.ini', 'w') as file_object:
+            config.write(file_object)
         exit()
 
     variables.setVariables()
-    # vars = setVariables()
-    # variables.client_id = vars[0]
-    # variables.client_secret = vars[1]
-    # variables.playlistUserId = vars[2]
-    # variables.playlistId = vars[3]
-    # variables.daatbaseHost = vars[4]
-    # variables.variables.databaseUser = vars[5]
-    # variables.variables.databasePassword = vars[6]
-    # variables.variables.databaseDatabase = vars[7]
-    # print(vars)
-    variables.client_id = str(sys.argv[1])
-    variables.client_secret = str(sys.argv[2])
-    variables.playlistUserId = str(sys.argv[3])
-    variables.playlistId = str(sys.argv[4])
-    variables.databaseHost = str(sys.argv[5])
-    variables.databaseUser = str(sys.argv[6])
-    variables.databasePassword = str(sys.argv[7])
-    variables.databaseDatabase = str(sys.argv[8])
-    variables.playlistNotAcceptedId = str(sys.argv[9])
-    variables.blacklistSongsPlaylistId = str(sys.argv[10])
-    variables.blacklistArtistsPlaylistId = str(sys.argv[11])
-    variables.whitelistSongsPlaylistId = str(sys.argv[12])
-    variables.whitelistArtistsPlaylistId = str(sys.argv[13])
-    variables.queuePlaylistId = str(sys.argv[14])
+
+    config = helper.read_config()
+
+
+    variables.client_id = config['Spotify']['client_id']
+    variables.client_secret = config['Spotify']['client_secret']
+    variables.playlistUserId = config['Spotify']['username']
+    variables.playlistId = config['Spotify']['review_playlist_id']
+    variables.databaseHost = config['Spotify']['db_host']
+    variables.databaseUser = config['Spotify']['db_user']
+    variables.databasePassword = config['Spotify']['db_password']
+    variables.databaseDatabase = config['Spotify']['db_database']
+    variables.playlistNotAcceptedId = config['Spotify']['rejected_playlist_id']
+    variables.blacklistSongsPlaylistId = config['Spotify']['blacklist_songs_playlist_id']
+    variables.blacklistArtistsPlaylistId = config['Spotify']['blacklist_artists_playlist_id']
+    variables.whitelistSongsPlaylistId = config['Spotify']['whitelist_songs_playlist_id']
+    variables.whitelistArtistsPlaylistId = config['Spotify']['whitelist_artists_playlist_id']
+    variables.queuePlaylistId = config['Spotify']['queue_playlist_id']
     app.run(host="0.0.0.0", port=8080)
 
 ##########################################
