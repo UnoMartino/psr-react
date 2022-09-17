@@ -205,14 +205,25 @@ def SpotifyAPI(url):
         AddToLogPlaylist(tk.from_url(url)[1])
 
 
-
-
     for i in variables.czech_symbols:
         if i in searchResult[0]:
             czechCheck = True
             break
         else:
             czechCheck = False
+
+    app_token = tk.request_client_token(variables.client_id, variables.client_secret)
+    spotify = tk.Spotify(app_token)
+    id = tk.from_url(url)[1]
+    artistId = json.loads(requests.get("https://api.spotify.com/v1/tracks/" + id + "?market=PL", headers={"Accept":"application/json", "Content-Type":"application/json", "Authorization":"Bearer " + str(app_token)}).text)['artists'][0]['id']
+
+
+    queuePlaylist = spotify.playlist(playlist_id=variables.queuePlaylistId)
+    
+    for i in queuePlaylist.tracks.items:
+        if id in i.track.id:
+            return [], {'error':True, 'description':f'{searchResult[3]} jest już w kolejce.'}
+    
 
     app_token = tk.request_client_token(variables.client_id, variables.client_secret) 
     if spoti:

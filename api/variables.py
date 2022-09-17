@@ -1,5 +1,5 @@
 def setVariables():
-    global client_id, client_secret, playlistUserId, playlistId, databaseHost, databaseUser, databasePassword, databaseDatabase, playlistNotAcceptedId, blacklistSongsPlaylistId, blacklistArtistsPlaylistId, whitelistSongsPlaylistId, whitelistArtistsPlaylistId
+    global client_id, client_secret, playlistUserId, playlistId, databaseHost, databaseUser, databasePassword, databaseDatabase, playlistNotAcceptedId, blacklistSongsPlaylistId, blacklistArtistsPlaylistId, whitelistSongsPlaylistId, whitelistArtistsPlaylistId, queuePlaylistId
     client_id = None
     client_secret = None
     playlistUserId = None
@@ -13,6 +13,7 @@ def setVariables():
     blacklistArtistsPlaylistId = None
     whitelistSongsPlaylistId = None
     whitelistArtistsPlaylistId = None
+    queuePlaylistId = None
 
 def setConfigVariables():
     global client_id, client_secret
