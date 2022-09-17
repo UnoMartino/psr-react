@@ -6,5 +6,5 @@ if [ ! -e /data/$CONFIGURED ]; then
     touch /data/$CONFIGURED
 else
     echo "-- Container configured --"
-    gunicorn -w 9 backend:app
+    gunicorn -w 9 -b 0.0.0.0 backend:app
 fi
