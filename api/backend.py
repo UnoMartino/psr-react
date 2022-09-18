@@ -60,8 +60,6 @@ def GetNowRadiodj():
 
 @app.route('/api/now-playing', methods=['GET'])
 def NowPlaying():
-    
-
 
     getNowPlayingVar = getNowPlaying()
     data = {
@@ -354,6 +352,8 @@ if __name__ == "__main__":
             config.write(file_object)
         exit()
 
+    if str(sys.argv[1]) == "start":
+        app.run(host='0.0.0.0', port=8000, debug=False)
 
 
 ##########################################
