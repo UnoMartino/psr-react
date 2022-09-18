@@ -1,3 +1,26 @@
+import helper
+
+global client_id, client_secret, playlistUserId, playlistId, databaseHost, databaseUser, databasePassword, databaseDatabase, playlistNotAcceptedId, blacklistSongsPlaylistId, blacklistArtistsPlaylistId, whitelistSongsPlaylistId, whitelistArtistsPlaylistId, queuePlaylistId
+
+config = helper.read_config()
+
+client_id = config['Spotify']['client_id']
+client_secret = config['Spotify']['client_secret']
+playlistUserId = config['Spotify']['username']
+playlistId = config['Spotify']['review_playlist_id']
+databaseHost = config['Spotify']['db_host']
+databaseUser = config['Spotify']['db_user']
+databasePassword = config['Spotify']['db_password']
+databaseDatabase = config['Spotify']['db_database']
+playlistNotAcceptedId = config['Spotify']['rejected_playlist_id']
+blacklistSongsPlaylistId = config['Spotify']['blacklist_songs_playlist_id']
+blacklistArtistsPlaylistId = config['Spotify']['blacklist_artists_playlist_id']
+whitelistSongsPlaylistId = config['Spotify']['whitelist_songs_playlist_id']
+whitelistArtistsPlaylistId = config['Spotify']['whitelist_artists_playlist_id']
+queuePlaylistId = config['Spotify']['queue_playlist_id']
+
+
+
 def setVariables():
     global client_id, client_secret, playlistUserId, playlistId, databaseHost, databaseUser, databasePassword, databaseDatabase, playlistNotAcceptedId, blacklistSongsPlaylistId, blacklistArtistsPlaylistId, whitelistSongsPlaylistId, whitelistArtistsPlaylistId, queuePlaylistId
     client_id = None

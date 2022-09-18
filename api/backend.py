@@ -60,25 +60,7 @@ def GetNowRadiodj():
 
 @app.route('/api/now-playing', methods=['GET'])
 def NowPlaying():
-    variables.setVariables()
-
-    config = helper.read_config()
-
-
-    variables.client_id = config['Spotify']['client_id']
-    variables.client_secret = config['Spotify']['client_secret']
-    variables.playlistUserId = config['Spotify']['username']
-    variables.playlistId = config['Spotify']['review_playlist_id']
-    variables.databaseHost = config['Spotify']['db_host']
-    variables.databaseUser = config['Spotify']['db_user']
-    variables.databasePassword = config['Spotify']['db_password']
-    variables.databaseDatabase = config['Spotify']['db_database']
-    variables.playlistNotAcceptedId = config['Spotify']['rejected_playlist_id']
-    variables.blacklistSongsPlaylistId = config['Spotify']['blacklist_songs_playlist_id']
-    variables.blacklistArtistsPlaylistId = config['Spotify']['blacklist_artists_playlist_id']
-    variables.whitelistSongsPlaylistId = config['Spotify']['whitelist_songs_playlist_id']
-    variables.whitelistArtistsPlaylistId = config['Spotify']['whitelist_artists_playlist_id']
-    variables.queuePlaylistId = config['Spotify']['queue_playlist_id']
+    
 
 
     getNowPlayingVar = getNowPlaying()
