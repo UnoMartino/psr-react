@@ -1,5 +1,5 @@
 # Radio Song Requester
-### Radio Song Requester lets the user see what is played on the radio at the moment and allows the user to request their song to be played next. Integration with Spotify and lyrics database guarantees quick and automated request verification.
+### Radio Song Requester lets the user see what is played on the radio at the moment and allows user to request their song to be played next. Integration with Spotify and lyrics database guarantees quick and automated request verification.
 
 ## Functions
 - Lyrics local cache
@@ -22,7 +22,7 @@
 5. If you configured `.env` file correctly, you will be given a link, which authorizes you with Spotify.
 6. Paste the response URL from your browser's address bar.
 7. `docker-compose up -d`
-8. Setup your reverse proxy in the way that `/api` point to the `BACKEND_PORT` and `/` to point to `APP_PORT`
+8. Setup your reverse proxy in the way that `/api` points to the `BACKEND_PORT` and `/` points to `APP_PORT`
 
 Sample configuration with Nginx Proxy Manager:  
 <img src="https://user-images.githubusercontent.com/69631058/191816610-cd8b2052-dd21-436d-87db-db79976e9cc4.png" alt="Nginx" width=400>  
@@ -66,8 +66,8 @@ APP_PORT=8073                           # Port to run the app server on
 | DB_USER | Database user | 
 | DB_PASSWORD | Database password |
 | DB_DATABASE | (optional) Name of the database used for the app (default value: spotify) |
-| BACKEND_PORT | (optional) Port used for the API backend (default value: 8073) |
-| APP_PORT | (optional) Port used for frontend (default value: 8072) |
+| BACKEND_PORT | (optional) Port used for the API backend (default value: 8072) |
+| APP_PORT | (optional) Port used for frontend (default value: 8073) |
 
 ## Additional information
 The software is provided "as is", without any warranty and it's licensed under GNU General Public License version 3.
